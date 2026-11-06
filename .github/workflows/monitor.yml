@@ -1,0 +1,26 @@
+name: Monitor externo
+
+# A cada 15 min, de fora da rede da elti: HTTPS de cada host em hosts.txt (status < 500) e
+# certificado com mais de 14 dias. Resultado vai para o Healthchecks ("Sites externos"), que manda
+# e-mail se falhar ou se o ping parar de chegar (ex.: o GitHub desligou o agendamento).
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: bash monitor.sh hosts.txt
+        env:
+          HC_URL: ${{ secrets.HC_URL }}
