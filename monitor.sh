@@ -1,5 +1,6 @@
 #!/bin/bash
 # Monitor externo (U2 do pente fino de 02/11/2026). Roda no GitHub Actions, fora da rede da elti.
+# Desde 07/11/2026 sem HC_URL no workflow: o ping do Healthchecks vem do Worker (worker/index.js).
 # Para cada host: HTTPS responde com status < 500 e certificado vale por mais de DIAS_CERT dias.
 # Tudo ok -> ping no Healthchecks; algum problema -> /fail com a lista. Sem ping -> o Healthchecks avisa.
 set -u

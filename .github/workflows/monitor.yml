@@ -1,11 +1,11 @@
-name: Monitor externo
+name: Certificados
 
-# A cada 15 min, de fora da rede da elti: HTTPS de cada host em hosts.txt (status < 500) e
-# certificado com mais de 14 dias. Resultado vai para o Healthchecks ("Sites externos"), que manda
-# e-mail se falhar ou se o ping parar de chegar (ex.: o GitHub desligou o agendamento).
+# Desde 07/11/2026 o "está no ar" de 15 em 15 min roda no Cloudflare Worker (worker/), porque o
+# agendamento do GitHub atrasava ~6 h. Aqui fica a validade dos certificados (>= 14 dias) e o HTTPS
+# de cada host, a cada 6 h. Se falhar, o próprio GitHub manda e-mail de "workflow failed".
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -22,5 +22,3 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - run: bash monitor.sh hosts.txt
-        env:
-          HC_URL: ${{ secrets.HC_URL }}

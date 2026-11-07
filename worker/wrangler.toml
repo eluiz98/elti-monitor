@@ -1,0 +1,14 @@
+name = "elti-monitor"
+main = "index.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+
+[triggers]
+crons = ["*/15 * * * *"]
+
+[[rules]]
+type = "Text"
+globs = ["**/*.txt"]
+fallthrough = true
+
+# Segredo: HC_URL (URL de ping do Healthchecks "Sites externos") -> wrangler secret put HC_URL
