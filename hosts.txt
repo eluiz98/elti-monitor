@@ -30,3 +30,7 @@ ponteira.app
 api.ponteira.app
 painel.sejalevens.com.br
 agenciado.sejalevens.com.br
+financeiro.elti.com.br
+api-financeiro.elti.com.br
+contabius.elti.com.br
+webhooks-financeiro.elti.com.br
