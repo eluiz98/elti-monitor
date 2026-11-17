@@ -35,3 +35,4 @@ api-financeiro.elti.com.br
 contabius.elti.com.br
 webhooks-financeiro.elti.com.br
 cau.elti.com.br
+demandascau.elti.com.br
