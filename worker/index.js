@@ -26,8 +26,19 @@ async function testar(host) {
   return `${host}: ${ultimo}`;
 }
 
+// 25/11/2026: soluços de segundos (ex.: resposta perdida entre a Cloudflare e o Worker no
+// site com nuvem laranja, com a origem respondendo 200) geravam alerta falso. Quem falhar na
+// 1a rodada é testado de novo depois de 2 min, e só vai para o /fail se falhar de novo.
+const ESPERA_RECONFERIR_MS = 120000;
+
 async function rodar(env) {
-  const problemas = (await Promise.all(HOSTS.map(testar))).filter(Boolean);
+  let problemas = (await Promise.all(HOSTS.map(testar))).filter(Boolean);
+  if (problemas.length) {
+    console.log(`1a rodada: ${problemas.join(" | ")}; reconferindo em 2 min`);
+    await new Promise((ok) => setTimeout(ok, ESPERA_RECONFERIR_MS));
+    const falharam = problemas.map((p) => p.split(":")[0]);
+    problemas = (await Promise.all(falharam.map(testar))).filter(Boolean);
+  }
   const url = problemas.length ? `${env.HC_URL}/fail` : env.HC_URL;
   const corpo = problemas.length ? problemas.join("\n") : `tudo ok (${HOSTS.length} hosts)`;
   const hc = await fetch(url, { method: "POST", body: corpo, signal: AbortSignal.timeout(15000) });
