@@ -22,7 +22,8 @@ reactdapt.com
 shop3d.elti.com.br
 api-shop3d.elti.com.br
 telar.elti.com.br
-paineltelar.elti.com.br
+painel.casadeculturatelar.com.br
+casadeculturatelar.com.br
 api-telar.elti.com.br
 dentalcard.elti.com.br
 api-dentalcard.elti.com.br
